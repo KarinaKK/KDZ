@@ -5,8 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:kedrolivanskaya"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525" Loaded="Window_Loaded">
+        Title="Бюджет семьи" Height="550" MinWidth="525" MinHeight="550" Width="525" Closing="MainWindow_OnClosing" Loaded="Window_Loaded">
     <Grid >
-       <Frame Name="main_frame"/>
+
+        <StackPanel>
+            <Grid>
+            <Button HorizontalAlignment="Right" Content="Войти" Name="ButtonInput" Click="LinkAuth_OnClick" Margin="0,0,10,0" Width="55"></Button>
+            <TextBlock HorizontalAlignment="Center" MinWidth="100" Name="WelcomeTb"></TextBlock>
+            </Grid>
+            <Frame Name="MainFrame"/>
+        </StackPanel>
     </Grid>
 </Window>
