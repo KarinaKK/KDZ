@@ -6,6 +6,9 @@
         xmlns:local="clr-namespace:kedrolivanskaya"
         mc:Ignorable="d"
         Title="Бюджет семьи" Height="550" MinWidth="525" MinHeight="550" Width="525" Closing="MainWindow_OnClosing" Loaded="Window_Loaded">
+    <Window.DataContext>
+        <local:Budget></local:Budget>
+    </Window.DataContext>
     <Grid >
 
         <StackPanel>

@@ -23,7 +23,7 @@ namespace kedrolivanskaya
         {
             InitializeComponent();
             this.Owner = Application.Current.MainWindow;
-            _currUser = (this.Owner as MainWindow).GetBudget.Family.First(
+            _currUser = ((this.Owner as MainWindow).DataContext as Budget).Family.First(
                 x => x.Name == (this.Owner as MainWindow).GetCurrentUser.Name
                      && x.Surname == (this.Owner as MainWindow).GetCurrentUser.Surname);
             DatePickerStart.SelectedDate = DateTime.Now;
@@ -41,10 +41,19 @@ namespace kedrolivanskaya
                     OutcomesBlcok.Text = _currUser.Outcomes
                         .Where(x => x.Date > (sender as DatePicker).SelectedDate &&
                                     x.Date <= DatePickerEnd.SelectedDate).Sum(x => x.Price).ToString();
+                    calc_sum();
                 }
 
         }
 
+        private void calc_sum()
+        {
+            double tempIncome;
+            double tempOutcome;
+            if (double.TryParse(IncomesBlcok.Text, out tempIncome) &&
+                double.TryParse(OutcomesBlcok.Text, out tempOutcome))
+                TotalBlcok.Text = (tempIncome - tempOutcome).ToString();
+        }
         private void DatePicker1_OnSelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {         
             if ((sender as DatePicker).SelectedDate.HasValue)
@@ -52,8 +61,9 @@ namespace kedrolivanskaya
                 {
                     IncomesBlcok.Text = _currUser.Incomes
                         .Where(x => x.Date <= (sender as DatePicker).SelectedDate &&
-                                    x.Date > DatePickerEnd.SelectedDate).Sum(x => x.Price).ToString();
-                    OutcomesBlcok.Text = _currUser.Outcomes.Where(x => x.Date <= (sender as DatePicker).SelectedDate && x.Date > DatePickerEnd.SelectedDate).Sum(x => x.Price).ToString();
+                                    x.Date > DatePickerStart.SelectedDate).Sum(x => x.Price).ToString();
+                    OutcomesBlcok.Text = _currUser.Outcomes.Where(x => x.Date <= (sender as DatePicker).SelectedDate && x.Date > DatePickerStart.SelectedDate).Sum(x => x.Price).ToString();
+                    calc_sum();
                 }
         }
     }

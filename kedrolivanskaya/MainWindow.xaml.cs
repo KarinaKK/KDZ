@@ -15,14 +15,14 @@ namespace kedrolivanskaya
             InitializeComponent();
             
         }
-        public Budget GetBudget { get; set; }
+       // public Budget GetBudget { get; set; }
         public bool IsAuthorized { get; set; }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {           
             MainFrame.Content = new MainPage(this);           
-        }        
-        
+        }
 
+        public Budget CurrentBudget { get; set; }
         public User GetCurrentUser
         {
             get { return _currUser; }
@@ -38,10 +38,11 @@ namespace kedrolivanskaya
             if (_currUser != null)
             {
                 WelcomeTb.Text = "";
-                (sender as Button).Content = "Войти";
-                if(MessageBox.Show("\t\tСохранить изменения?", "\tСохранение", MessageBoxButton.YesNo)==MessageBoxResult.Yes)
-                    GetBudget.Save_Data();
+                (sender as Button).Content = "Войти";                
+                  //  if (MessageBox.Show("\t\tСохранить изменения?", "\tСохранение", MessageBoxButton.YesNo)==MessageBoxResult.Yes)
+                    //    GetBudget.Save_Data();
                 _currUser = null;
+                
                 MainFrame.Content = new MainPage(this);
                 
             }
@@ -57,10 +58,11 @@ namespace kedrolivanskaya
                 }
             }
         }
-
+        
         private void MainWindow_OnClosing(object sender, CancelEventArgs e)
         {
-            switch (MessageBox.Show("\t\tСохранить изменения?", "\tСохранение", MessageBoxButton.YesNoCancel))
+            if (!(this.DataContext as Budget).check_Updates())
+                switch (MessageBox.Show("\t\tСохранить изменения?", "\tСохранение", MessageBoxButton.YesNoCancel))
             {
                 case MessageBoxResult.Cancel:
                 {
@@ -68,8 +70,8 @@ namespace kedrolivanskaya
                         break;                    
                 }
                 case MessageBoxResult.Yes:
-                {                                
-                    GetBudget.Save_Data();
+                {
+                    (this.DataContext as Budget).Save_Data();
                         break;
                 }
 
